@@ -1,6 +1,6 @@
-# 🛡️ Veredict.id: Advanced DDoS Detection System
+# 🛡️ Veredict.id: :Virtual Environment Response & Early Detection of Intrusion Cyber Threats
 
-**Veredict.id** adalah sistem keamanan berbasis Machine Learning yang dirancang untuk mendeteksi serangan **DDoS (Distributed Denial of Service)** pada lalu lintas jaringan secara real-time. Proyek ini menggabungkan algoritma **XGBoost** yang kuat dengan antarmuka web interaktif menggunakan **Streamlit**.
+**Veredict.id** adalah sistem keamanan berbasis Machine Learning yang dirancang untuk mendeteksi serangan pada lalu lintas jaringan sebagai First line of defense. Proyek ini menggabungkan algoritma **XGBoost** yang kuat dengan antarmuka web interaktif menggunakan **Streamlit**.
 
 ---
 

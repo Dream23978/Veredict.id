@@ -89,7 +89,7 @@ if menu == "Dashboard & Metrics":
             Akurasi ~94% menunjukkan kemampuan deteksi yang sangat andal pada trafik jaringan.
             
             **ROC-AUC** mendekati 1.0 (0.97) berarti model sangat baik dalam membedakan 
-            antara trafik normal dan serangan DDoS.
+            antara trafik normal dan serangan di jaringan.
         """)
 
 elif menu == "Deteksi Data Kotor":

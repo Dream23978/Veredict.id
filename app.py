@@ -55,7 +55,7 @@ st.markdown("""
 
 # --- Sidebar ---
 st.sidebar.title("🛡️ Veredict.id Pro")
-menu = st.sidebar.radio("Navigasi", ["Dashboard & Metrics", "Deteksi Data Kotor", "Manual Prediction"])
+menu = st.sidebar.radio("Navigasi", ["Dashboard & Metrics", "Deteksi Data Kotor"])
 
 if menu == "Dashboard & Metrics":
     st.title("📊 Model Insights & Performance")
@@ -90,6 +90,76 @@ if menu == "Dashboard & Metrics":
             
             **ROC-AUC** mendekati 1.0 (0.97) berarti model sangat baik dalam membedakan 
             antara trafik normal dan serangan di jaringan.
+        """)
+
+    st.markdown("---")
+
+    # --- Deskripsi Algoritma XGBoost ---
+    st.write("### 🤖 Tentang Algoritma XGBoost")
+
+    tab1, tab2, tab3 = st.tabs(["📌 Apa itu XGBoost?", "⚙️ Cara Kerja", "🎯 Mengapa XGBoost?"])
+
+    with tab1:
+        st.markdown("""
+        **XGBoost** *(Extreme Gradient Boosting)* adalah algoritma machine learning berbasis 
+        **ensemble learning** yang dikembangkan oleh Tianqi Chen pada tahun 2014. 
+        XGBoost membangun banyak **pohon keputusan (decision tree)** secara berurutan, 
+        di mana setiap pohon baru belajar dari **kesalahan pohon sebelumnya**.
+
+        > *"XGBoost bukan sekadar model — ia adalah sistem optimasi gradient boosting yang dirancang 
+        untuk efisiensi, fleksibilitas, dan portabilitas tinggi."*
+
+        **Karakteristik Utama:**
+        - ✅ Berbasis **Gradient Boosted Decision Trees (GBDT)**
+        - ✅ Menggunakan teknik **regularisasi L1 & L2** untuk mencegah overfitting
+        - ✅ Mendukung **parallel computing** sehingga sangat cepat
+        - ✅ Terbukti unggul di banyak kompetisi data science (Kaggle, dll.)
+        """)
+
+    with tab2:
+        st.markdown("""
+        #### Alur Kerja XGBoost:
+
+        1. **Inisialisasi** — Model dimulai dengan prediksi awal (biasanya rata-rata target).
+        2. **Hitung Residual** — Hitung selisih antara nilai aktual dan prediksi (*residual/error*).
+        3. **Bangun Pohon Keputusan** — Pohon baru dilatih untuk memprediksi residual tersebut.
+        4. **Update Prediksi** — Prediksi diperbarui dengan menambahkan output pohon baru dikalikan *learning rate (η)*.
+        5. **Ulangi** — Proses diulang sebanyak `n_estimators` kali hingga error diminimalkan.
+
+        **Formula Prediksi Final:**
+        """)
+        st.latex(r"\hat{y} = \sum_{k=1}^{K} \eta \cdot f_k(x)")
+        st.markdown("""
+        Di mana:
+        - $\hat{y}$ = prediksi akhir
+        - $K$ = jumlah total pohon
+        - $\eta$ = learning rate
+        - $f_k(x)$ = output pohon ke-$k$
+
+        **Objective Function dengan Regularisasi:**
+        """)
+        st.latex(r"\mathcal{L} = \sum_{i} l(y_i, \hat{y}_i) + \sum_{k} \Omega(f_k)")
+        st.markdown("""
+        - $l(y_i, \hat{y}_i)$ = loss function (misal: log loss untuk klasifikasi)
+        - $\Omega(f_k) = \gamma T + \frac{1}{2}\lambda \|w\|^2$ = regularisasi untuk mengontrol kompleksitas pohon
+        """)
+
+    with tab3:
+        st.markdown("""
+        #### Mengapa XGBoost untuk Deteksi DDoS?
+
+        | Keunggulan | Penjelasan |
+        |---|---|
+        | 🚀 **Kecepatan Tinggi** | Komputasi paralel membuat training jauh lebih cepat dari algoritma boosting lainnya |
+        | 🎯 **Akurasi Tinggi** | Ensemble dari banyak pohon menghasilkan prediksi yang sangat akurat |
+        | 🔒 **Tahan Overfitting** | Regularisasi L1/L2 + early stopping mencegah model terlalu hafal data training |
+        | 📊 **Feature Importance** | Memberikan transparansi fitur mana yang paling berpengaruh dalam deteksi |
+        | 🧹 **Toleran Data Kotor** | Dapat menangani missing values secara internal |
+        | 🌐 **Terbukti di Industri** | Dipakai luas di bidang keamanan siber, finansial, dan riset akademis |
+
+        Pada sistem **Veredict.id**, XGBoost dilatih menggunakan dataset **CIC-IDS2017** 
+        dengan validasi **10-Fold Cross Validation** untuk memastikan performa yang stabil 
+        dan dapat diandalkan dalam mendeteksi serangan DDoS secara real-time.
         """)
 
 elif menu == "Deteksi Data Kotor":
@@ -130,23 +200,3 @@ elif menu == "Deteksi Data Kotor":
                     fig2, ax2 = plt.subplots()
                     raw_df['Hasil_Analisis'].value_counts().plot.pie(autopct='%1.1f%%', colors=['#4CAF50', '#F44336'], ax=ax2)
                     st.pyplot(fig2)
-
-elif menu == "Manual Prediction":
-    st.title("⌨️ Manual Input Analysis")
-    # Form input manual yang sudah ada sebelumnya
-    with st.form("manual_form"):
-        st.write("Masukkan nilai fitur secara manual:")
-        cols = st.columns(3)
-        input_dict = {}
-        for i, col in enumerate(feature_columns):
-            with cols[i % 3]:
-                input_dict[col] = st.number_input(col, value=0.0)
-        
-        if st.form_submit_button("Cek Trafik"):
-            input_df = pd.DataFrame([input_dict])
-            scaled_input = scaler.transform(input_df)
-            res = model.predict(scaled_input)[0]
-            if res == 1:
-                st.error("⚠️ HASIL: SERANGAN DDOS TERDETEKSI!")
-            else:
-                st.success("✅ HASIL: TRAFIK AMAN (BENIGN)")

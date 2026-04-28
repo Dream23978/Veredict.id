@@ -146,7 +146,7 @@ if menu == "Dashboard & Metrics":
 
     with tab3:
         st.markdown("""
-        #### Mengapa XGBoost untuk Deteksi DDoS?
+        #### Mengapa XGBoost untuk Deteksi potensi serangan di dalam jaringan?
 
         | Keunggulan | Penjelasan |
         |---|---|

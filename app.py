@@ -129,7 +129,7 @@ if menu == "Dashboard & Metrics":
         **Formula Prediksi Final:**
         """)
         st.latex(r"\hat{y} = \sum_{k=1}^{K} \eta \cdot f_k(x)")
-        st.markdown("""
+        st.markdown(r"""
         Di mana:
         - $\hat{y}$ = prediksi akhir
         - $K$ = jumlah total pohon
@@ -139,7 +139,7 @@ if menu == "Dashboard & Metrics":
         **Objective Function dengan Regularisasi:**
         """)
         st.latex(r"\mathcal{L} = \sum_{i} l(y_i, \hat{y}_i) + \sum_{k} \Omega(f_k)")
-        st.markdown("""
+        st.markdown(r"""
         - $l(y_i, \hat{y}_i)$ = loss function (misal: log loss untuk klasifikasi)
         - $\Omega(f_k) = \gamma T + \frac{1}{2}\lambda \|w\|^2$ = regularisasi untuk mengontrol kompleksitas pohon
         """)

@@ -54,7 +54,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- Sidebar ---
-st.sidebar.title("🛡️ Veredict.id Pro")
+st.sidebar.title("🛡️ Veredict.id")
 menu = st.sidebar.radio("Navigasi", ["Dashboard & Metrics", "Deteksi Data Kotor"])
 
 if menu == "Dashboard & Metrics":
